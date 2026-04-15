@@ -1,0 +1,31 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #eff6ff;
+}
+
+.code {
+  font-size: 6rem;
+  font-weight: 800;
+  color: #1e40af;
+  margin: 0;
+}
+
+.message {
+  font-size: 1.25rem;
+  color: #6b7280;
+  margin: 0.5rem 0 1.5rem;
+}
+
+.link {
+  color: #2563eb;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
