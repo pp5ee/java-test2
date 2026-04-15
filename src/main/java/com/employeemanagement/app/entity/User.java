@@ -44,6 +44,11 @@ public class User implements UserDetails {
     @Column(nullable = false, length = 30)
     private Role role;
 
+    /** The user's manager in the organizational hierarchy. */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "manager_id")
+    private User manager;
+
     /** Whether the user has verified their email address. */
     @Column(nullable = false)
     @Builder.Default

@@ -73,6 +73,9 @@ Thumbs.db
 logs/
 spring.log
 
+# ─── Humanize RLCR artifacts ────────────────────────────────────────────────────
+.humanize/
+
 # ─── Test / coverage reports ───────────────────────────────────────────────────
 /report/
 /coverage/
