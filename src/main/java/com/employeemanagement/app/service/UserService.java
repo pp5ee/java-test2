@@ -53,7 +53,11 @@ public class UserService {
         user.setEmail(userDto.getEmail());
         user.setPassword(passwordEncoder.encode(userDto.getEmail())); // Temporary password
         user.setRole(userDto.getRole());
-        user.setManager(userDto.getManagerId() != null ? userRepository.findById(userDto.getManagerId()).orElse(null) : null);
+        if (userDto.getManagerId() != null) {
+            User manager = userRepository.findById(userDto.getManagerId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Manager not found with id: " + userDto.getManagerId()));
+            user.setManager(manager);
+        }
         user.setActive(true);
         user.setEmailVerified(false);
 
@@ -72,7 +76,15 @@ public class UserService {
             user.setRole(userDto.getRole());
         }
         if (userDto.getManagerId() != null) {
-            user.setManager(userRepository.findById(userDto.getManagerId()).orElse(null));
+            if (userDto.getManagerId().equals(id)) {
+                throw new BadRequestException("A user cannot be their own manager");
+            }
+            User manager = userRepository.findById(userDto.getManagerId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Manager not found with id: " + userDto.getManagerId()));
+            if (wouldCreateCircularReference(user, manager)) {
+                throw new BadRequestException("Setting this manager would create a circular reference");
+            }
+            user.setManager(manager);
         }
         if (userDto.isActive() != user.isActive()) {
             user.setActive(userDto.isActive());
@@ -80,6 +92,17 @@ public class UserService {
 
         User updated = userRepository.save(user);
         return mapToDto(updated);
+    }
+
+    private boolean wouldCreateCircularReference(User user, User potentialManager) {
+        User current = potentialManager;
+        while (current != null) {
+            if (current.getId().equals(user.getId())) {
+                return true;
+            }
+            current = current.getManager();
+        }
+        return false;
     }
 
     public void deleteUser(Long id) {
