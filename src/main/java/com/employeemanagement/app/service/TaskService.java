@@ -58,7 +58,7 @@ public class TaskService {
         Task task = new Task();
         task.setTitle(request.getTitle());
         task.setDescription(request.getDescription());
-        task.setStatus(Task.TaskStatus.PENDING);
+        task.setStatus(Task.TaskStatus.TODO);
         task.setCreator(creator);
         task.setAssignee(assignee);
         task.setDueDate(request.getDueDate());
