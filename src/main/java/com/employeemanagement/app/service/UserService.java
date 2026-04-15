@@ -2,6 +2,7 @@ package com.employeemanagement.app.service;
 
 import com.employeemanagement.app.dto.UserDto;
 import com.employeemanagement.app.entity.User;
+import com.employeemanagement.app.exception.BadRequestException;
 import com.employeemanagement.app.exception.ResourceNotFoundException;
 import com.employeemanagement.app.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -26,7 +26,7 @@ public class UserService {
     public List<UserDto> getAllUsers() {
         return userRepository.findAll().stream()
                 .map(this::mapToDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public UserDto getUserById(Long id) {
@@ -44,7 +44,7 @@ public class UserService {
     public List<UserDto> getUsersByManager(Long managerId) {
         return userRepository.findByManagerId(managerId).stream()
                 .map(this::mapToDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public UserDto createUser(UserDto userDto) {

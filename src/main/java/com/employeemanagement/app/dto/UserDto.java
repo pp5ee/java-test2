@@ -32,6 +32,7 @@ public class UserDto {
         user.setRole(this.role);
         user.setActive(this.active);
         user.setEmailVerified(this.emailVerified);
+        user.setManager(this.managerId != null ? User.builder().id(this.managerId).build() : null);
         return user;
     }
 }

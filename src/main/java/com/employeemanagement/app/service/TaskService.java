@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -28,7 +27,7 @@ public class TaskService {
     public List<TaskDto> getAllTasks() {
         return taskRepository.findAll().stream()
                 .map(this::mapToDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public TaskDto getTaskById(Long id) {
@@ -40,13 +39,13 @@ public class TaskService {
     public List<TaskDto> getTasksByCreator(Long creatorId) {
         return taskRepository.findByCreatorId(creatorId).stream()
                 .map(this::mapToDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public List<TaskDto> getTasksByAssignee(Long assigneeId) {
         return taskRepository.findByAssigneeId(assigneeId).stream()
                 .map(this::mapToDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public TaskDto createTask(CreateTaskRequest request, Long creatorId) {
